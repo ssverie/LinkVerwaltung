@@ -72,9 +72,12 @@
         </div>
     </div>
 
-    <p class="text-muted mt-3 small">
-        <span id="anzahl">0</span> Link(s) gespeichert
-    </p>
+    <div class="d-flex justify-content-between align-items-center mt-3">
+        <p class="text-muted small mb-0">
+            <span id="anzahl">0</span> Link(s) gespeichert
+        </p>
+        <a href="/api/links/export/csv" class="btn btn-sm btn-outline-success">CSV Export</a>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
