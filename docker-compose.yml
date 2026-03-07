@@ -1,0 +1,15 @@
+services:
+  link-postgres:
+    image: postgres:17
+    container_name: link-postgres
+    ports:
+      - "5556:5432"
+    environment:
+      POSTGRES_DB: linkverwaltung
+      POSTGRES_USER: sven
+      POSTGRES_PASSWORD: sven123
+    volumes:
+      - link-pg-data:/var/lib/postgresql/data
+
+volumes:
+  link-pg-data:
