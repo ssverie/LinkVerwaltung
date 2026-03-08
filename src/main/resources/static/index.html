@@ -89,10 +89,26 @@
 <script>
     const API = '/api/links';
 
+    // --- API-Aufruf mit Session-Prüfung ---
+    async function apiFetch(url, options = {}) {
+        const res = await fetch(url, options);
+        if (res.redirected || res.status === 401 || res.status === 403) {
+            window.location.href = '/login.html';
+            return null;
+        }
+        const ct = res.headers.get('content-type') || '';
+        if (!ct.includes('json') && !ct.includes('csv')) {
+            window.location.href = '/login.html';
+            return null;
+        }
+        return res;
+    }
+
     // --- Links laden ---
     async function ladeLinks(suche) {
         const url = suche ? `${API}?suche=${encodeURIComponent(suche)}` : API;
-        const res = await fetch(url);
+        const res = await apiFetch(url);
+        if (!res) return;
         const links = await res.json();
         zeigeLinks(links);
     }
@@ -133,13 +149,13 @@
         };
 
         if (id) {
-            await fetch(`${API}/${id}`, {
+            await apiFetch(`${API}/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(daten)
             });
         } else {
-            await fetch(API, {
+            await apiFetch(API, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(daten)
@@ -152,7 +168,7 @@
 
     // --- Link bearbeiten ---
     async function bearbeiten(id) {
-        const res = await fetch(`${API}/${id}`);
+        const res = await apiFetch(`${API}/${id}`);
         const link = await res.json();
         document.getElementById('linkId').value = link.id;
         document.getElementById('url').value = link.url;
@@ -165,7 +181,7 @@
     // --- Link loeschen ---
     async function loeschen(id) {
         if (!confirm('Wirklich loeschen?')) return;
-        await fetch(`${API}/${id}`, { method: 'DELETE' });
+        await apiFetch(`${API}/${id}`, { method: 'DELETE' });
         ladeLinks();
     }
 
