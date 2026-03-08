@@ -41,9 +41,12 @@ public class LinkRestController {
 
     // POST /api/links -> neuen Link anlegen
     @PostMapping
-    public Link anlegen(@RequestBody Link link) {
-        link.setId(null); // sicherstellen, dass neu angelegt wird
-        return linkRepository.save(link);
+    public ResponseEntity<?> anlegen(@RequestBody Link link) {
+        if (link.getUrl() == null || link.getUrl().isBlank()) {
+            return ResponseEntity.badRequest().body("URL ist erforderlich");
+        }
+        link.setId(null);
+        return ResponseEntity.ok(linkRepository.save(link));
     }
 
     // PUT /api/links/5 -> Link aktualisieren
