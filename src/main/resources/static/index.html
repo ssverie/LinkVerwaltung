@@ -36,13 +36,14 @@
                         <label for="titel" class="form-label">Titel</label>
                         <input type="text" class="form-control" id="titel" placeholder="Titel des Links">
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <label for="channel" class="form-label">Channel</label>
                         <input type="text" class="form-control" id="channel" placeholder="z.B. YouTube-Kanal">
                     </div>
-                    <div class="col-md-1 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary w-100">Speichern</button>
-                    </div>
+                </div>
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                    <button type="button" class="btn btn-outline-secondary ms-2" onclick="formZuruecksetzen()" id="btnAbbrechen" style="display:none;">Abbrechen</button>
                 </div>
             </form>
         </div>
@@ -177,6 +178,7 @@
         document.getElementById('titel').value = link.titel || '';
         document.getElementById('channel').value = link.channel || '';
         document.getElementById('formTitel').textContent = 'Link bearbeiten';
+        document.getElementById('btnAbbrechen').style.display = 'inline-block';
         document.getElementById('url').focus();
     }
 
@@ -204,6 +206,7 @@
         document.getElementById('linkForm').reset();
         document.getElementById('linkId').value = '';
         document.getElementById('formTitel').textContent = 'Neuen Link hinzufuegen';
+        document.getElementById('btnAbbrechen').style.display = 'none';
     }
 
     function esc(str) {
